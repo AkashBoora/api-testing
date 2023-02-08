@@ -1,0 +1,2 @@
+accountNo,ifsc,accountType,firstName,lastName,mailId,purposeType,countryName,countryCode,valueInUsd,transactionStatus,sendingAmount,receivingAmount,guaranteedRate,transferFee,recipientType,referenceNo
+5643276566,GRT678RT345,Checking,Mary,Chandler,mary.chandler@gmail.com,Paying Salaries,Poland,POL,4.23,inProgress,100,96.69,1,3.69,BusinessÿorÿCharity,7841292424

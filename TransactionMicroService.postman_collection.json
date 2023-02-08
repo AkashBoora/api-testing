@@ -1,0 +1,1270 @@
+{
+	"info": {
+		"_postman_id": "80e77ff1-f209-494d-8678-e30f6a9d112b",
+		"name": "TransactionMicroService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BankEntity",
+			"item": [
+				{
+					"name": "CreateBankAccount",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonBody = pm.response.json()\r",
+									"\r",
+									"pm.collectionVariables.set(\"createdBankAccountId\",jsonBody.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"accountNo\": \"{{accountNo}}\",\r\n    \"ifsc\": \"{{ifsc}}\",\r\n    \"accountType\": \"{{accountType}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{bankAccountsUrl}}",
+							"host": [
+								"{{url}}{{bankAccountsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllBankAccounts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string accountNo\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"accountNo\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string ifsc\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"ifsc\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string accountType\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"accountType\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{bankAccountsUrl}}",
+							"host": [
+								"{{url}}{{bankAccountsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBankAccountById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body matches id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"4c6b6a78-b191-479a-91ed-1158162bbeb2\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches accountNo\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"75321489623\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches ifsc\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"IDIB000H897\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches accountType\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Checking\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{bankAccountsUrl}}{{bankAccountId}}",
+							"host": [
+								"{{url}}{{bankAccountsUrl}}{{bankAccountId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteBankAccount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{bankAccountsUrl}}{{createdBankAccountId}}",
+							"host": [
+								"{{url}}{{bankAccountsUrl}}{{createdBankAccountId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.set(\"url\",\"https://backend.spcluster.tk/transactions\")",
+							"pm.collectionVariables.set(\"bankAccountsUrl\",\"/bankAccounts/\")",
+							"pm.collectionVariables.set(\"bankAccountId\",\"4c6b6a78-b191-479a-91ed-1158162bbeb2\")"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Recipient",
+			"item": [
+				{
+					"name": "CreateRecipient",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonBody = pm.response.json()\r",
+									"\r",
+									"pm.collectionVariables.set(\"createdRecipientId\",jsonBody.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"{{firstName}}\",\r\n    \"lastName\":\"{{lastName}}\",\r\n    \"mailId\":\"{{mailId}}\",\r\n    \"bankAccount\":{\r\n        \"accountNo\": \"{{accountNo}}\",\r\n        \"ifsc\": \"{{ifsc}}\",\r\n        \"accountType\": \"{{accountType}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{recipientsUrl}}",
+							"host": [
+								"{{url}}{{recipientsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllRecipients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string firstName\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"firstName\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string lastName\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"lastName\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string mailId\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"mailId\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string bankAccount\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"bankAccount\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{recipientsUrl}}",
+							"host": [
+								"{{url}}{{recipientsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetRecipientById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string firstName\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Mario\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string lastName\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Gabriel\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string mailId\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"mario.gabriel@gmail.com\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{recipientsUrl}}{{recipientId}}",
+							"host": [
+								"{{url}}{{recipientsUrl}}{{recipientId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetRecipientByMailId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body matches mailId\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"mario.gabriel@gmail.com\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{recipientsUrl}}mailId/{{recipientMailId}}",
+							"host": [
+								"{{url}}{{recipientsUrl}}mailId"
+							],
+							"path": [
+								"{{recipientMailId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteRecipient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{recipientsUrl}}{{createdRecipientId}}",
+							"host": [
+								"{{url}}{{recipientsUrl}}{{createdRecipientId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.set(\"recipientsUrl\",\"/recipients/\")",
+							"pm.collectionVariables.set(\"recipientId\",\"4330095f-ec7a-4913-8711-340c0bb5b35e\")",
+							"pm.collectionVariables.set(\"recipientMailId\",\"mario.gabriel@gmail.com\")"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Purpose",
+			"item": [
+				{
+					"name": "CreatePurpose",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonBody = pm.response.json()\r",
+									"\r",
+									"pm.collectionVariables.set(\"createdPurposeId\",jsonBody.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"purposeType\":\"{{purposeType}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{purposesUrl}}",
+							"host": [
+								"{{url}}{{purposesUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllPurposes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string purposeType\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"purposeType\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{purposesUrl}}",
+							"host": [
+								"{{url}}{{purposesUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPurposeById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body matches id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches purposeType\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Paying suppliers/contractors/employees\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{purposesUrl}}{{purposeId}}",
+							"host": [
+								"{{url}}{{purposesUrl}}{{purposeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeletePurpose",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{purposesUrl}}{{createdPurposeId}}",
+							"host": [
+								"{{url}}{{purposesUrl}}{{createdPurposeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.set(\"purposesUrl\",\"/purposes/\")",
+							"pm.collectionVariables.set(\"purposeId\",\"9ab7e6f7-2f2a-4a05-ad49-da2a10890fc0\")"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Currency",
+			"item": [
+				{
+					"name": "CreateCurrency",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonBody = pm.response.json()\r",
+									"\r",
+									"pm.collectionVariables.set(\"createdCurrencyId\",jsonBody.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"countryName\": \"{{countryName}}\",\r\n    \"countryCode\": \"{{countryCode}}\",\r\n    \"valueInUsd\": {{valueInUsd}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{currenciesUrl}}",
+							"host": [
+								"{{url}}{{currenciesUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllCurrenices",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string countryName\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"countryName\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string countryCode\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"countryCode\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string valueInUsd\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"valueInUsd\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{currenciesUrl}}",
+							"host": [
+								"{{url}}{{currenciesUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCurrencyById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body matches id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"10b6ec48-36a0-41d5-90ee-0a2f44fb6b12\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches countryName\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"United Kingdom\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches countryCode\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"GBP\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches valueInUsd\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"1.217\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{currenciesUrl}}{{currencyId}}",
+							"host": [
+								"{{url}}{{currenciesUrl}}{{currencyId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCurrency",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{currenciesUrl}}{{createdCurrencyId}}",
+							"host": [
+								"{{url}}{{currenciesUrl}}{{createdCurrencyId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.set(\"currenciesUrl\",\"/currencies/\")",
+							"pm.collectionVariables.set(\"currencyId\",\"10b6ec48-36a0-41d5-90ee-0a2f44fb6b12\")"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "EventLogs",
+			"item": [
+				{
+					"name": "GetEventLogById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body matches id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"27debda2-7819-44e4-bcbc-ad34912f016a\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches eventType\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Sending\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches timestamp\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"2022-07-25T18:12:02.000+00:00\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{eventLogsUrl}}{{eventLogId}}",
+							"host": [
+								"{{url}}{{eventLogsUrl}}{{eventLogId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllEventLogs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string eventType\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"eventType\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string timestamp\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"timestamp\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string transaction\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"transaction\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{eventLogsUrl}}",
+							"host": [
+								"{{url}}{{eventLogsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateEventLog",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonBody = pm.response.json()\r",
+									"\r",
+									"pm.collectionVariables.set(\"createdEvenLogId\",jsonBody.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"eventType\":\"Sending\",\r\n    \"timestamp\":\"2019-07-25T18:12:02.241Z\",\r\n    \"transaction\":{\r\n        \"id\":\"{{transactionId}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{eventLogsUrl}}",
+							"host": [
+								"{{url}}{{eventLogsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteEventLog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{eventLogsUrl}}{{createdEvenLogId}}",
+							"host": [
+								"{{url}}{{eventLogsUrl}}{{createdEvenLogId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.set(\"eventLogsUrl\",\"/eventLogs/\")",
+							"pm.collectionVariables.set(\"eventLogId\",\"27debda2-7819-44e4-bcbc-ad34912f016a\")",
+							"pm.collectionVariables.set(\"transactionId\",\"3ccc464a-b088-4692-bc9d-4d9d4b7ec32d\")"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "CreateTransaction",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonBody = pm.response.json()\r",
+									"\r",
+									"pm.collectionVariables.set(\"createdTransactionId\",jsonBody.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n        \"pocketPayAccountId\":\"{{pocketPayAccountId}}\",\r\n        \"transactionStatus\":\"{{transactionStatus}}\",\r\n        \"sendingCurrency\":{\r\n            \"id\":\"{{currencyId}}\"\r\n        },\r\n        \"receivingCurrency\":{\r\n            \"id\":\"{{currencyId}}\"\r\n        },\r\n        \"senderId\":\"{{senderId}}\",\r\n        \"recipient\":{\r\n            \"id\":\"{{recipientId}}\"\r\n        },\r\n        \"sendingAmount\":{{sendingAmount}},\r\n        \"receivingAmount\":{{receivingAmount}},\r\n        \"guaranteedRate\":{{guaranteedRate}},\r\n        \"transferFee\": {{transferFee}},\r\n        \"recipientType\":\"{{recipientType}}\",\r\n        \"purpose\":{\r\n            \"id\":\"{{purposeId}}\"\r\n        },\r\n        \"referenceNo\":\"{{referenceNo}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{transactionsUrl}}",
+							"host": [
+								"{{url}}{{transactionsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteEventLog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{transactionsUrl}}{{createdTransactionId}}",
+							"host": [
+								"{{url}}{{transactionsUrl}}{{createdTransactionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllEventLogs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string pocketPayAccountId\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"pocketPayAccountId\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{transactionsUrl}}",
+							"host": [
+								"{{url}}{{transactionsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTransactionById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body matches id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"3ccc464a-b088-4692-bc9d-4d9d4b7ec32d\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches pocketPayAccountId\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"d3987314-0255-4ab9-846b-f4f150ea1015\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches senderId\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"5e15f73c-8bbb-482b-9e22-14aed2fc6c58\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches transactionStatus\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"canceled\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches recipientType\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Business or Charity\");\r",
+									"});\r",
+									"pm.test(\"Verify Body matches referenceNo\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"7894125741\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{transactionsUrl}}{{transactionId}}",
+							"host": [
+								"{{url}}{{transactionsUrl}}{{transactionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTransactionsByAccountId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify Body contains string id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{transactionsUrl}}account/{{pocketPayAccountId}}",
+							"host": [
+								"{{url}}{{transactionsUrl}}account"
+							],
+							"path": [
+								"{{pocketPayAccountId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.set(\"transactionsUrl\",\"/transactions/\")",
+							"pm.collectionVariables.set(\"transactionId\",\"3ccc464a-b088-4692-bc9d-4d9d4b7ec32d\")",
+							"pm.collectionVariables.set(\"pocketPayAccountId\",\"d3987314-0255-4ab9-846b-f4f150ea1015\")",
+							"pm.collectionVariables.set(\"senderId\",\"e02deb39-db95-47e9-b678-eb8fc3dd6d61\")"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.collectionVariables.set(\"url\",\"https://backend.spcluster.tk/transactions\")"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": ""
+		},
+		{
+			"key": "bankAccountsUrl",
+			"value": ""
+		},
+		{
+			"key": "bankAccountId",
+			"value": ""
+		},
+		{
+			"key": "createdBankAccountId",
+			"value": ""
+		},
+		{
+			"key": "recipientsUrl",
+			"value": ""
+		},
+		{
+			"key": "recipientId",
+			"value": ""
+		},
+		{
+			"key": "recipientMailId",
+			"value": ""
+		},
+		{
+			"key": "createdRecipientId",
+			"value": ""
+		},
+		{
+			"key": "purposesUrl",
+			"value": ""
+		},
+		{
+			"key": "purposeId",
+			"value": ""
+		},
+		{
+			"key": "createdPurposeId",
+			"value": ""
+		},
+		{
+			"key": "currenciesUrl",
+			"value": ""
+		},
+		{
+			"key": "currencyId",
+			"value": ""
+		},
+		{
+			"key": "createdCurrencyId",
+			"value": ""
+		},
+		{
+			"key": "eventLogsUrl",
+			"value": ""
+		},
+		{
+			"key": "eventLogId",
+			"value": ""
+		},
+		{
+			"key": "transactionId",
+			"value": ""
+		},
+		{
+			"key": "createdEvenLogId",
+			"value": ""
+		},
+		{
+			"key": "transactionsUrl",
+			"value": ""
+		},
+		{
+			"key": "pocketPayAccountId",
+			"value": ""
+		},
+		{
+			"key": "senderId",
+			"value": ""
+		},
+		{
+			"key": "createdTransactionId",
+			"value": ""
+		}
+	]
+}
